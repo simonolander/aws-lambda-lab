@@ -1,0 +1,3 @@
+rds_config.py
+*.zip
+__pycache__
