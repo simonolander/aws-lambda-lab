@@ -96,10 +96,18 @@ Click **Services** in the top menu bar, then click **Lamdba** in the menu.
 Click the big orange button called **Create function**.
 
 Fill in the form for your function. We are doing `getMessages` first.
+
 | *Template* | `Author from scratch` |
 | *Name*     | `getMessages` |
 | *Runtime*  | `Python 3.6` |
 | *Role*     | `Create a custom role` (if you already have an existing role, you can use that one) |
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
+
 ![Create the function geMessages](screenshots/create-function-getMessages.png "Create the function geMessages")
 
 You will be taken to a window to create your role. Just leave everything as-is. The role will be called `lambda_basic_execution`.
