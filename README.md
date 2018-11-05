@@ -326,3 +326,9 @@ Test the method, try changing the limit to different values.
 4. Under **Method Response** add status code 400 as we did in GET
 5. Under **Integration Response** add the same response for 400 Bad Request as we did in GET
 6. Test it out!
+
+
+
+## Enabling CORS
+
+Under the **Actions** dropdown where we created the GET and POST methods, click **Enable CORS**.
