@@ -97,6 +97,8 @@ Click the big orange button called **Create function**.
 
 Fill in the form for your function. We are doing `getMessages` first.
 
+| Field      | Value |
+| ---------- | ----- |
 | *Template* | `Author from scratch` |
 | *Name*     | `getMessages` |
 | *Runtime*  | `Python 3.6` |
