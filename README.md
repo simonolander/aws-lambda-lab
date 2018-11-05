@@ -105,13 +105,11 @@ You should have two zip files, one for each code folder. The names of the zip fi
 
 # Creating the functions in AWS
 
-
-
 ## Sign in to AWS and go to Lambdas
 Sign in to AWS at https://aws.amazon.com. The sign in option is in the top right corner. We are going to the *Service* called *Lambda*.
 
+![alt text](screenshots/go-to-lambda.png "Go to Lambda")
 Click **Services** in the top menu bar, then click **Lamdba** in the menu.
-[go-to-lambda]
 
 Click the big orange button called **Create function**.
 
@@ -217,7 +215,7 @@ Click **Save**
 
 ![alt text](screenshots/get-go-to-all.png "Different method execution configuration areas")
 
-You can see four boxes now where we will configure the request and response mappings to the lambda. We will visit all four of them in the following order
+You can see four boxes now where we will configure the request and response mappings to the lambda. We will visit all four of them in the following order:
 1. Method Request
 2. Integration Request
 3. Method Response
