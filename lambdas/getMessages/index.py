@@ -95,9 +95,9 @@ def validate_event(event):
     return limit
 
 
-def lambda_handler(event, context):
+def handler(event, context):
     """
-    This is the main method of the lambda function. The default AWS name is lambda_handler.
+    This is the main method of the lambda function. The default AWS name is handler.
     The parameter event contains all the parameters from the rest request.
     The parameter context contains a lot of system properties that we don't care about.
 
