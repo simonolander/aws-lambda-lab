@@ -97,6 +97,7 @@ Click the big orange button called **Create function**.
 
 Fill in the form for your function. We are doing `getMessages` first.
 
+
 Field | Value
 --- | ---
 **Template** | `Author from scratch` 
@@ -115,12 +116,14 @@ Click **Create function**
 You will be in a new view showing you a bunch of stuff about your lambda. It's a functioning lambda, but it doesn't do anything useful. We're going to upload the code from `getMessages.zip`.
 
 Go to the section **Function code**
+
 Field | Value
 --- | ---
 **Code entry type** | `Upload a .zip file`
 **Runtime** | `Python 3.6`
 **Handler** | `index.handler`
 **Function package** | `getMessages.zip`
+
 Click **Save** in the top right corner. It's going to take a couple of seconds.
 
 ![Upload function](screenshots/upload-function-code-getMessages.png "Upload function code")
@@ -132,6 +135,7 @@ Click **Services** in the top menu again. This time go to **API Gateway**.
 If you see a welcome screen, click **Get started**.
 
 Fill out the API form.
+
 Field | Value
 --- | ---
 **Template** | `New API`
@@ -139,15 +143,18 @@ Field | Value
 **Description** | `Some description`
 **Endpoint type** | `Regional`
 Click **Create API**
+
 ![Create messages API](screenshots/create-messages-api.png "Create messages API")
 Select **Create Method** from the **Actions** dropdown.
 ![Create GET method](screenshots/create-method-get.png "Create GET method")
 Select **GET** from the small dropdown under **Resources**
 ![alt text](screenshots/select-get.png "Select GET")
 Click the small checkmark next to the dropdown
+
 Field | Value
 --- | ---
 **Enter Lambda Function** | `getMessages`
+
 Click **Save**
 ![alt text](screenshots/enter-lambda-function-getMessages.png "Specify lambda function")
 You can see four boxes now where we will configure the request and response mappings to the lambda. We will visit all four of them in the following order
@@ -159,24 +166,29 @@ You can see four boxes now where we will configure the request and response mapp
 
 Go to **Method Request**
 Expand **URL Query String Parameters** and add a new query string.
+
 Field | Value
 --- | ---
 **Name** | `limit`
 **Required** | `false`
 **Caching** | `false`
+
 ![alt text](screenshots/get-method-request.png "Configure method request")
 
 Go back to **Method Execution**, then to **Integration Request**
 Expand **URL Query String Parameters** add a new entry:
+
 Field | Value
 --- | ---
 **Name** | `limit`
 **Mapped from** | `method.request.querystring.limit`
 **Caching** | `false`
+
 ![alt text](screenshots/get-integration-request-query-string.png "Configure integration request query string")
 
 Go back to **Method Execution**, then to **Integration Request**
 Expand **URL Query String Parameters** add a new entry:
+
 Field | Value
 --- | ---
 **Name** | `limit`
@@ -184,31 +196,39 @@ Field | Value
 **Caching** | `false`
 
 Expand **Mapping Templates**
+
 Field | Value
 --- | ---
 **Request body passthrough** | `When there are no templates defined`
+
 Add a new mapping template
+
 Field | Value
 --- | ---
 **Content-Type** | `application/json`
 **Generate template** | `Method Request passthrough`
 Click **Save**
+
 ![alt text](screenshots/get-integration-request-mapping-templates.png "Configure integration request mapping template")
 
 Go back to **Method Execution**, then to **Method Response**
 Add a new HTTP Status response
+
 Field | Value
 --- | ---
 **Status code** | `400`
+
 ![alt text](screenshots/get-method-response.png "Configure method response")
 
 Go back to **Method Execution**, then to **Integration Response**
 Add a new integration response
+
 Field | Value
 --- | ---
 **Lambda Error Regex** | `Bad Request.*`
 **Method response status** | `400`
 **Content handling** | `Passthrough`
+
 ![alt text](screenshots/get-integration-response.png "Configure integration response")
 
 Go back to **Method Execution**, then to **Test**
