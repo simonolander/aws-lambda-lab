@@ -19,7 +19,7 @@ Everyone new to AWS spends a long time looking around in configuration files to 
 ## Home prep for you
 I need four things of you before we start the lab
 1. You all have to be able to log in to AWS Console. If you don't have an account, talk to Anders or head to https://aws.amazon.com/ and hit **Sign up**. It takes a couple of minutes and requires personal details like credit card, but everything in this lab is free.
-2. I will also send you a file called **rds_config.py** containing the credentials for the database that we will be working with.
+2. I will also send you a file called **rds_config.py** containing the credentials for the database that we will be working with. Keep this safe somewhere.
 3. Clone this repo to your personal computer.
 4. We will be zipping files, make sure you have some program that can create a .zip
 
