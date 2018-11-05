@@ -1,7 +1,199 @@
-# aws-lambda-lab
-A small lab to get started with aws lambda
+# Academy + AWS = Sant
+A hands on introduction to how lambdas, gateways and databases work in AWS. In this lab, we will 
+- Create two lambdas that create and retrieve data from a database
+- Hook the lambdas up to REST methods
+- Actually have everything working
+- Set up a database (if we have time)
 
-# Sign in
+While doing this, we will learn
+- What a lambda function is and how to create one
+- What a VPC is
+- How to have your lambda talk to your database
+- How to map REST requests to your lambdas
+
+Everyone new to AWS spends a long time looking around in configuration files to get stuff to work. By doing a fairly useful thing like connecting REST to a database in a step-by-step way, I hope to have you avoid some of that first time frustration.
+
+## Home prep for you
+I need four things of you before we start the lab
+1. You all have to be able to log in to AWS Console. If you don't have an account, talk to Anders or head to https://aws.amazon.com/ and hit **Sign up**. It takes a couple of minutes and requires personal details like credit card, but everything in this lab is free.
+2. I will also send you a file called **rds_config.py** containing the credentials for the database that we will be working with.
+3. Clone this repo to your personal computer.
+4. We will be zipping files, make sure you have some program that can create a .zip
+
+## Home prep for me
+I have, apart from making this cool *README*, prepared the database and the lambda functions. The lambdas are written in Python and are located in the *lambdas*-folder in this repo. I prepped them to save you time, and to test the code beforehand. We will look at them a bit more later.
+
+The database is an MySQL RDS instance that is up and running at AWS. I prepared this not because it's hard, but because it takes some time to instantiate and we only need one anyway. We will look at the database setup in the end if we have time.
+
+# Let's create the functions
+## Adding the config file
+If you haven't already, clone this repo to your computer.
+```bash
+git clone [INSERT URL]
+```
+There is a folder called `lambdas` in the root of the repo. It contains our two additional folders containing the code for our lambdas, `getMessages` and `postMessage`.
+```
+.
+├── LICENCE and README and stuff...
+└── lambdas
+    ├── getMessages
+    └── postMessage
+```
+Most of the contents in the folders are libraries for communicating with the database. The entry points for the lambdas (and the only code that isn't a lib) are in the files `getMessages/index.py` and `postMessage/index.py`. The lambdas are not yet complete; they are missing credentials for the database. Take the file `rds_config.py` that you've recieved by email and place it in each of the lambda folders. Your should have the following structure.
+```
+.
+└── lambdas
+    ├── getMessages
+    │   ├── ...
+    │   ├── index.py
+    │   └── rds_config.py
+    └── postMessage
+        ├── ...
+        ├── index.py
+        └── rds_config.py
+```
+The structure of `rds_config.py` looks like this, but with the actual password.
+```python
+rds_host = "r2m-academy-lab.c891uj4a8hrg.us-east-2.rds.amazonaws.com"
+rds_username = "root"
+rds_password = "password"
+rds_db_name = "r2m_academy_lab"
+```
+If you have python3 on your computer, you can test that the lambda works by running
+```bash
+cd lambdas/getMessages/
+python3 -c "from index import handler; print(handler({'params': {'querystring': {'limit': '1'}}}, {}));"
+
+# output
+[{'id': 17, 'username': 'sios', 'message': 'Inserting a message from the gateway api section', 'created_time': '2018-11-04 20:42:30+01:00'}]
+```
+If you get get an error saying **ModuleNotFoundError: No module named 'rds_config'**, make sure that you copied `rds_config.py` to the right place.
+## Zipping the folders
+The folders need to be zipped before we can upload them to AWS. You need to zip the *entire contents* of `getMessages` and `postMessage` to two separate zip files. Make sure not to include just the contents, do **not** zip the folders themselves. You can zip using whatever you like, I usually do
+```bash
+cd lambdas/getMessages
+zip -r ../getMessages.zip *
+cd ..
+cd postMessage
+zip -r ../postMessage.zip *
+```
+You should have two zip files, one for each code folder. The names of the zip files are not important.
+```
+.
+└── lambdas
+    ├── getMessages
+    ├── getMessages.zip
+    ├── postMessage
+    └── postMessage.zip
+```
+## Creating the functions in AWS
+### Sign in to AWS and go to Lambdas
+Sign in to AWS at https://aws.amazon.com. The sign in option is in the top right corner. We are going to the *Service* called *Lambda*.
+
+Click **Services** in the top menu bar, then click **Lamdba** in the menu.
+[go-to-lambda]
+
+Click the big orange button called **Create function**.
+
+Fill in the form for your function. We are doing `getMessages` first.
+Template: Author from scratch
+Name: getMessages
+Runtime: Python 3.6
+Role: Create a custom role (if you already have an existing role, you can use that one)
+[create-function-getMessages]
+
+You will be taken to a window to create your role. Just leave everything as-is. The role will be called `lambda_basic_execution`.
+[create-custom-roll]
+
+Click **Create function**
+
+You will be in a new view showing you a bunch of stuff about your lambda. It's a functioning lambda, but it doesn't do anything useful. We're going to upload the code from `getMessages.zip`.
+
+Go to the section **Function code**
+Code entry type: Upload a .zip file
+Runtime: Python 3.6
+Handler: index.handler
+Function package: getMessages.zip
+Click **Save** in the top right corner. It's going to take a couple of seconds.
+
+[upload-function-code-getMessages]
+
+# Adding a REST API
+Click **Services** in the top menu again. This time go to **API Gateway**.
+[go-to-gateway.png]
+
+If you see a welcome screen, click **Get started**.
+
+Fill out the API form.
+Template: New API
+API name: messages
+Description: Some description
+Endpoint type: Regional
+Click **Create API**
+[create-messages-api]
+Select **Create Method** from the **Actions** dropdown.
+[create-method-get.png]
+Select **GET** from the small dropdown under **Resources**
+[select-get]
+Click the small checkmark next to the dropdown
+Enter Lambda Function: getMessages
+Click **Save**
+[enter-lambda-function-getMessages.png]
+You can see four boxes now where we will configure the request and response mappings to the lambda. We will visit all four of them in the following order
+1. Method Request
+2. Integration Request
+3. Method Response
+4. Integration Response
+[get-go-to-all.png]
+
+Go to **Method Request**
+Expand **URL Query String Parameters** and add a new query string.
+Name: limit
+Required: false
+Caching: false
+[get-method-request.png]
+
+Go back to **Method Execution**, then to **Integration Request**
+Expand **URL Query String Parameters** add a new entry:
+Name: limit
+Mapped from: method.request.querystring.limit
+Caching: false
+[get-integration-request-query-string.png]
+
+Go back to **Method Execution**, then to **Integration Request**
+Expand **URL Query String Parameters** add a new entry:
+Name: limit
+Mapped from: method.request.querystring.limit
+Caching: false
+
+Expand **Mapping Templates**
+Request body passthrough: When there are no templates defined
+Add a new mapping template
+Content-Type: application/json
+Scroll down
+Generate template: Method Request passthrough
+Click **Save**
+[get-integration-request-mapping-templates.png]
+
+Go back to **Method Execution**, then to **Method Response**
+Add a new HTTP Status response
+Status code: 400
+[get-method-response.png]
+
+Go back to **Method Execution**, then to **Integration Response**
+Add a new integration response
+Lambda Error Regex: Bad Request.*
+Method response status: 400
+Content handling: Passthrough
+[get-integration-response.png]
+
+Go back to **Method Execution**, then to **Test**
+[get-go-to-test.png]
+
+Test the method, try changing the limit to different values.
+[get-method-test.png]
+
+
 
 # Gateway
 Choose new API
