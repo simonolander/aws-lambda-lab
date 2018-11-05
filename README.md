@@ -157,6 +157,12 @@ Click **Save** in the top right corner. It's going to take a couple of seconds.
 
 
 
+## Create the postMessage lambda
+
+Go back to **Functions** and create a new lambda the same way. This time call it `postMessage`. Use the same role `lambda_basic_execution` as you used last time. When uploading the function code for this lambda, upload `postMessage.zip` instead of the first zip file. Click **Save**.
+
+
+
 # Adding a REST API
 
 ## Go to API Gateway
