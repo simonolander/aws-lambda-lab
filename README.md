@@ -106,7 +106,7 @@ You should have two zip files, one for each code folder. The names of the zip fi
 # Creating the functions in AWS
 
 ## Sign in to AWS and go to Lambdas
-Sign in to AWS at https://aws.amazon.com. The sign in option is in the top right corner. We are going to the *Service* called *Lambda*.
+Sign in to AWS at https://console.aws.amazon.com/. The sign in option is in the top right corner. We are going to the *Service* called *Lambda*.
 
 ![alt text](screenshots/go-to-lambda.png "Go to Lambda")
 Click **Services** in the top menu bar, then click **Lamdba** in the menu.
