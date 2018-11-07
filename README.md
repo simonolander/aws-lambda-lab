@@ -134,7 +134,7 @@ Field | Value
 
 You will be taken to a window to create your role. Just leave everything as-is. The role will be called `lambda_basic_execution`.
 
-Click **Create function**
+Click **Allow** then **Create function**
 
 
 
@@ -160,6 +160,9 @@ Click **Save** in the top right corner. It's going to take a couple of seconds.
 ## Create the postMessage lambda
 
 Go back to **Functions** and create a new lambda the same way. This time call it `postMessage`. Use the same role `lambda_basic_execution` as you used last time. When uploading the function code for this lambda, upload `postMessage.zip` instead of the first zip file. Click **Save**.
+
+![alt text](screenshots/create-function-postMessages.png "Create postMessage Lambda")
+![alt text](screenshots/upload-function-code-postMessage.png "Upload postMessage function code")
 
 
 
@@ -327,8 +330,13 @@ Test the method, try changing the limit to different values.
 5. Under **Integration Response** add the same response for 400 Bad Request as we did in GET
 6. Test it out!
 
+![alt text](screenshots/enter-lambda-function-postMessage.png "Specify postMessage lambda function")
+![alt text](screenshots/post-method-test.png "Test the post method")
+
 
 
 ## Enabling CORS
 
 Under the **Actions** dropdown where we created the GET and POST methods, click **Enable CORS**.
+
+![alt text](screenshots/enable-cors.png "Enable CORS for your methods")
