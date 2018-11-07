@@ -38,7 +38,8 @@ The database is an MySQL RDS instance that is up and running at AWS. I prepared 
 
 If you haven't already, clone this repo to your computer.
 ```bash
-git clone [INSERT URL]
+git clone https://github.com/simonolander/aws-lambda-lab.git
+cd aws-lambda-lab
 ```
 There is a folder called `lambdas` in the root of the repo. It contains our two additional folders containing the code for our lambdas, `getMessages` and `postMessage`.
 ```
