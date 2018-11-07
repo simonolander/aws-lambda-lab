@@ -108,15 +108,16 @@ You should have two zip files, one for each code folder. The names of the zip fi
 ## Sign in to AWS and go to Lambdas
 Sign in to AWS at https://console.aws.amazon.com/. The sign in option is in the top right corner. We are going to the *Service* called *Lambda*.
 
-![alt text](screenshots/go-to-lambda.png "Go to Lambda")
 Click **Services** in the top menu bar, then click **Lamdba** in the menu.
 
 Click the big orange button called **Create function**.
 
+![alt text](screenshots/go-to-lambda.png "Go to Lambda")
+
 
 
 ## Create the function
-![Create the function geMessages](screenshots/create-function-getMessages.png "Create the function getMessages")
+
 Fill in the form for your function. We are doing `getMessages` first.
 
 Field | Value
@@ -126,21 +127,21 @@ Field | Value
 **Runtime**  | `Python 3.6` 
 **Role**     | `Create a custom role` (if you already have an existing role, you can use that one) 
 
+![Create the function geMessages](screenshots/create-function-getMessages.png "Create the function getMessages")
+
 
 
 ## Create a new custom roll
-
-![Create a custom roll](screenshots/create-custom-roll.png "Create a custom roll")
 
 You will be taken to a window to create your role. Just leave everything as-is. The role will be called `lambda_basic_execution`.
 
 Click **Allow** then **Create function**
 
+![Create a custom roll](screenshots/create-custom-roll.png "Create a custom roll")
+
 
 
 ## Upload function code
-
-![Upload function](screenshots/upload-function-code-getMessages.png "Upload function code")
 
 You will be in a new view showing you a bunch of stuff about your lambda. It's a functioning lambda, but it doesn't do anything useful. We're going to upload the code from `getMessages.zip`.
 
@@ -154,6 +155,8 @@ Field | Value
 **Function package** | `getMessages.zip`
 
 Click **Save** in the top right corner. It's going to take a couple of seconds.
+
+![Upload function](screenshots/upload-function-code-getMessages.png "Upload function code")
 
 
 
@@ -170,16 +173,14 @@ Go back to **Functions** and create a new lambda the same way. This time call it
 
 ## Go to API Gateway
 
-![Go to Gateway API](screenshots/go-to-gateway.png "Go to Gateway API")
-
 Click **Services** in the top menu again. This time go to **API Gateway**.
 If you see a welcome screen, click **Get started**.
+
+![Go to Gateway API](screenshots/go-to-gateway.png "Go to Gateway API")
 
 
 
 ## Create messages API
-
-![Create messages API](screenshots/create-messages-api.png "Create messages API")
 
 Fill out the API form.
 
@@ -192,25 +193,25 @@ Field | Value
 
 Click **Create API**
 
+![Create messages API](screenshots/create-messages-api.png "Create messages API")
+
 
 
 ## Create GET method
 
-![Create GET method](screenshots/create-method-get.png "Create GET method")
-
 Select **Create Method** from the **Actions** dropdown.
 
-![alt text](screenshots/select-get.png "Select GET")
+![Create GET method](screenshots/create-method-get.png "Create GET method")
 
 Select **GET** from the small dropdown under **Resources**
 
 Click the small checkmark next to the dropdown
 
+![alt text](screenshots/select-get.png "Select GET")
+
 
 
 ## Specify lamdba function
-
-![alt text](screenshots/enter-lambda-function-getMessages.png "Specify lambda function")
 
 Field | Value
 --- | ---
@@ -218,11 +219,11 @@ Field | Value
 
 Click **Save**
 
+![alt text](screenshots/enter-lambda-function-getMessages.png "Specify lambda function")
+
 
 
 ## Different Method Execution sections
-
-![alt text](screenshots/get-go-to-all.png "Different method execution configuration areas")
 
 You can see four boxes now where we will configure the request and response mappings to the lambda. We will visit all four of them in the following order:
 1. Method Request
@@ -230,11 +231,11 @@ You can see four boxes now where we will configure the request and response mapp
 3. Method Response
 4. Integration Response
 
+![alt text](screenshots/get-go-to-all.png "Different method execution configuration areas")
+
 
 
 ## Configure Method Request
-
-![alt text](screenshots/get-method-request.png "Configure method request")
 
 Go to **Method Request**
 Expand **URL Query String Parameters** and add a new query string.
@@ -245,11 +246,11 @@ Field | Value
 **Required** | `false`
 **Caching** | `false`
 
+![alt text](screenshots/get-method-request.png "Configure method request")
+
 
 
 ## Configure Integration Request
-
-![alt text](screenshots/get-integration-request-query-string.png "Configure integration request query string")
 
 Go back to **Method Execution**, then to **Integration Request**
 Expand **URL Query String Parameters** add a new entry:
@@ -260,9 +261,9 @@ Field | Value
 **Mapped from** | `method.request.querystring.limit`
 **Caching** | `false`
 
+![alt text](screenshots/get-integration-request-query-string.png "Configure integration request query string")
 
 
-![alt text](screenshots/get-integration-request-mapping-templates.png "Configure integration request mapping template")
 
 Expand **Mapping Templates**
 
@@ -279,11 +280,11 @@ Field | Value
 
 Click **Save**
 
+![alt text](screenshots/get-integration-request-mapping-templates.png "Configure integration request mapping template")
+
 
 
 ## Configure Method Response
-
-![alt text](screenshots/get-method-response.png "Configure method response")
 
 Go back to **Method Execution**, then to **Method Response**
 Add a new HTTP Status response
@@ -291,6 +292,8 @@ Add a new HTTP Status response
 Field | Value
 --- | ---
 **Status code** | `400`
+
+![alt text](screenshots/get-method-response.png "Configure method response")
 
 
 
