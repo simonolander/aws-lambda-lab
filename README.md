@@ -18,7 +18,7 @@ Everyone new to AWS spends a long time looking around in configuration files to 
 
 ## Home prep for you
 I need four things of you before we start the lab
-1. You all have to be able to log in to AWS Console. If you don't have an account, talk to Anders or head to https://aws.amazon.com/ and hit **Sign up**. It takes a couple of minutes and requires personal details like credit card, but everything in this lab is free.
+1. You all have to be able to log in to AWS Console. If you don't have an account, head to https://aws.amazon.com/ and hit **Sign up**. It takes a couple of minutes and requires personal details like credit card, but everything in this lab is free.
 2. I will also send you a file called **rds_config.py** containing the credentials for the database that we will be working with. Keep this safe somewhere.
 3. Clone this repo to your personal computer.
 4. We will be zipping files, make sure you have some program that can create a .zip
@@ -74,7 +74,7 @@ cd lambdas/getMessages/
 python3 -c "from index import handler; print(handler({'params': {'querystring': {'limit': '1'}}}, {}));"
 
 # output
-[{'id': 17, 'username': 'sios', 'message': 'Inserting a message from the gateway api section', 'created_time': '2018-11-04 20:42:30+01:00'}]
+# [{'id': 17, 'username': 'sios', 'message': 'Inserting a message from the gateway api section', 'created_time': '2018-11-04 20:42:30+01:00'}]
 ```
 If you get get an error saying **ModuleNotFoundError: No module named 'rds_config'**, make sure that you copied `rds_config.py` to the right place.
 
@@ -102,15 +102,12 @@ You should have two zip files, one for each code folder. The names of the zip fi
 
 
 
-
 # Creating the functions in AWS
 
 ## Sign in to AWS and go to Lambdas
 Sign in to AWS at https://console.aws.amazon.com/. The sign in option is in the top right corner. We are going to the *Service* called *Lambda*.
 
-Click **Services** in the top menu bar, then click **Lamdba** in the menu.
-
-Click the big orange button called **Create function**.
+Click **Services** in the top menu bar, then click **Lamdba** in the menu. In the lambda page, click the big orange button called **Create function**.
 
 ![alt text](screenshots/go-to-lambda.png "Go to Lambda")
 
@@ -123,21 +120,26 @@ Fill in the form for your function. We are doing `getMessages` first.
 Field | Value
 --- | ---
 **Template** | `Author from scratch` 
-**Name**     | `getMessages` 
-**Runtime**  | `Python 3.6` 
-**Role**     | `Create a custom role` (if you already have an existing role, you can use that one) 
+**Name** | `getMessages` 
+**Runtime** | `Python 3.6` 
+**Role** | `Create a custom role` (if you already have an existing role, you can use that one) 
 
 ![Create the function geMessages](screenshots/create-function-getMessages.png "Create the function getMessages")
 
-
-
-## Create a new custom roll
-
 You will be taken to a window to create your role. Just leave everything as-is. The role will be called `lambda_basic_execution`.
 
-Click **Allow** then **Create function**
+Click **Allow**
 
 ![Create a custom roll](screenshots/create-custom-roll.png "Create a custom roll")
+
+If you come back to the create function page, select `lambda_basic_execution and click **Create function**.
+
+Field | Value
+--- | ---
+**Role** | `Choose an existing role`
+**Existing role** | `lambda_basic_execution`
+
+![Create with existing role](screenshots/create-function-getMessages-with-existing-role.png "Choose lambda_basic_execution and click create")
 
 
 
@@ -173,8 +175,7 @@ Go back to **Functions** and create a new lambda the same way. This time call it
 
 ## Go to API Gateway
 
-Click **Services** in the top menu again. This time go to **API Gateway**.
-If you see a welcome screen, click **Get started**.
+Click **Services** in the top menu again. This time go to **API Gateway**. If you see a welcome screen, click **Get started**.
 
 ![Go to Gateway API](screenshots/go-to-gateway.png "Go to Gateway API")
 
@@ -203,9 +204,7 @@ Select **Create Method** from the **Actions** dropdown.
 
 ![Create GET method](screenshots/create-method-get.png "Create GET method")
 
-Select **GET** from the small dropdown under **Resources**
-
-Click the small checkmark next to the dropdown
+Select **GET** from the small dropdown under **Resources**, then save by clicking the small checkmark next to the dropdown.
 
 ![alt text](screenshots/select-get.png "Select GET")
 
@@ -238,7 +237,8 @@ You can see four boxes now where we will configure the request and response mapp
 ## Configure Method Request
 
 Go to **Method Request**
-Expand **URL Query String Parameters** and add a new query string.
+
+Expand **URL Query String Parameters** and add a new query string:
 
 Field | Value
 --- | ---
@@ -253,6 +253,7 @@ Field | Value
 ## Configure Integration Request
 
 Go back to **Method Execution**, then to **Integration Request**
+
 Expand **URL Query String Parameters** add a new entry:
 
 Field | Value
@@ -265,7 +266,7 @@ Field | Value
 
 
 
-Expand **Mapping Templates**
+A bit down but still in **Integration Request**, expand **Mapping Templates**. We're going to create a new mapping to pass all the arguments to the lambda.
 
 Field | Value
 --- | ---
@@ -287,7 +288,8 @@ Click **Save**
 ## Configure Method Response
 
 Go back to **Method Execution**, then to **Method Response**
-Add a new HTTP Status response
+
+Add a new HTTP Status response:
 
 Field | Value
 --- | ---
@@ -300,7 +302,8 @@ Field | Value
 ## Configure Integration Response
 
 Go back to **Method Execution**, then to **Integration Response**
-Add a new integration response
+
+Add a new integration response:
 
 Field | Value
 --- | ---
