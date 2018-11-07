@@ -340,3 +340,24 @@ Test the method, try changing the limit to different values.
 Under the **Actions** dropdown where we created the GET and POST methods, click **Enable CORS**.
 
 ![alt text](screenshots/enable-cors.png "Enable CORS for your methods")
+
+
+
+## Deploying the API
+
+![alt text](screenshots/deploy-api.png "Find the deploy button")
+![alt text](screenshots/deploy-api-stage-name.png "Give the deploy a name")
+![alt text](screenshots/deploy-api-invoke-url.png "The url to the API")
+
+The API is not public yet, you need to deploy it to be able to access it outside AWS.
+
+1. Click **Deploy API** under the **Actions** dropdown.
+2. Give the stage a name, e.g. `production`.
+3. Click or copy the url at the top of the page.
+4. Test it with GET and POST and various parameters
+
+The GET is easiest to test from your browser. If you have curl, you can use the following line to test your POST. Remember to change the url to your url.
+
+```bash
+curl -d '{"username": "anon", "message": "hello"}' -H "Content-Type: application/json" -X POST https://your-lambda-id.execute-api.us-east-2.amazonaws.com/production
+```
