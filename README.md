@@ -166,7 +166,7 @@ Click **Save** in the top right corner. It's going to take a couple of seconds.
 
 Go back to **Functions** and create a new lambda the same way. This time call it `postMessage`. Use the same role `lambda_basic_execution` as you used last time. When uploading the function code for this lambda, upload `postMessage.zip` instead of the first zip file. Click **Save**.
 
-![alt text](screenshots/create-function-postMessages.png "Create postMessage Lambda")
+![alt text](screenshots/create-function-postMessage.png "Create postMessage Lambda")
 ![alt text](screenshots/upload-function-code-postMessage.png "Upload postMessage function code")
 
 
