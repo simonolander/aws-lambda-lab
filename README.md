@@ -296,8 +296,6 @@ Field | Value
 
 ## Configure Integration Response
 
-![alt text](screenshots/get-integration-response.png "Configure integration response")
-
 Go back to **Method Execution**, then to **Integration Response**
 Add a new integration response
 
@@ -307,17 +305,20 @@ Field | Value
 **Method response status** | `400`
 **Content handling** | `Passthrough`
 
+![alt text](screenshots/get-integration-response.png "Configure integration response")
+
 
 
 ## Test it out
 
+Go back to **Method Execution**, then to **Test**
+
 ![alt text](screenshots/get-go-to-test.png "Go to test")
 
-Go back to **Method Execution**, then to **Test**
+Test the method, try changing the limit to different values.
 
 ![alt text](screenshots/get-method-test.png "Test around using different limits")
 
-Test the method, try changing the limit to different values.
 
 
 
@@ -345,10 +346,6 @@ Under the **Actions** dropdown where we created the GET and POST methods, click 
 
 ## Deploying the API
 
-![alt text](screenshots/deploy-api.png "Find the deploy button")
-![alt text](screenshots/deploy-api-stage-name.png "Give the deploy a name")
-![alt text](screenshots/deploy-api-invoke-url.png "The url to the API")
-
 The API is not public yet, you need to deploy it to be able to access it outside AWS.
 
 1. Click **Deploy API** under the **Actions** dropdown.
@@ -361,3 +358,7 @@ The GET is easiest to test from your browser. If you have curl, you can use the 
 ```bash
 curl -d '{"username": "anon", "message": "hello"}' -H "Content-Type: application/json" -X POST https://your-lambda-id.execute-api.us-east-2.amazonaws.com/production
 ```
+
+![alt text](screenshots/deploy-api.png "Find the deploy button")
+![alt text](screenshots/deploy-api-stage-name.png "Give the deploy a name")
+![alt text](screenshots/deploy-api-invoke-url.png "The url to the API")
