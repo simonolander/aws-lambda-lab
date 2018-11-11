@@ -328,17 +328,49 @@ Test the method, try changing the limit to different values.
 
 
 
-
 ## Creating the POST API
 
-1. Create a new method POST the same way you created the GET method
-2. Point it to the lambda `postMessage` instead of the first lambda
-3. Under **Integration Request**, add the same request mapping, but leave the query string empty
-4. Under **Method Response** add status code 400 as we did in GET
-5. Under **Integration Response** add the same response for 400 Bad Request as we did in GET
-6. Test it out!
+Create a new method POST the same way you created the GET method. Point it to the lambda `postMessage` instead of the first lambda.
 
 ![alt text](screenshots/enter-lambda-function-postMessage.png "Specify postMessage lambda function")
+
+
+
+## Configure Integration Request
+
+Under **Integration Request**, add the same request mapping as we did in GET, but leave the query string empty
+
+![alt text](screenshots/post-integration-request-mapping-templates.png "Add the same request mapping as we did in GET")
+
+
+
+## Configure Method Response
+
+Under **Method Response**, add status code 400 as we did in GET
+
+![alt text](screenshots/post-method-response.png "Add 400 as method response code, like we did in GET")
+
+
+
+## Configure Integration Response
+
+Under **Integration Response**, add the same response for 400 Bad Request as we did in GET
+
+![alt text](screenshots/post-integration-response.png "Add 400 as a response mapping, like we did in GET")
+
+
+
+## Test it out!
+
+Go to test and try it out! Remember to specify a request body.
+
+```json
+{
+    "username": "anon",
+    "message": "Shooting from the API Gateway test area."
+}
+```
+
 ![alt text](screenshots/post-method-test.png "Test the post method")
 
 

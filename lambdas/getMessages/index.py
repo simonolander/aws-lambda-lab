@@ -36,10 +36,10 @@ def validate_event(event):
     {
         "body-json" : {},
         "params" : {
-        "path" : {},
-        "querystring" : {
-            "limit" : (string between 0 and 2**31-1, or nothing)
-        },
+            "path" : {},
+            "querystring" : {
+                "limit" : (string between 0 and 2**31-1, or nothing)
+            },
         "header" : {}
         },
         "stage-variables" : {}
