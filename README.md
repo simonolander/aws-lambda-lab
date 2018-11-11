@@ -83,7 +83,7 @@ If you get get an error saying **ModuleNotFoundError: No module named 'rds_confi
 
 ## Zipping the folders
 
-The folders need to be zipped before we can upload them to AWS. You need to zip the *entire contents* of `getMessages` and `postMessage` to two separate zip files. Make sure not to include just the contents, do **not** zip the folders themselves. You can zip using whatever you like, I usually do
+The folders need to be zipped before we can upload them to AWS. You need to zip the *entire contents* of `getMessages` and `postMessage` to two separate zip files. Make sure not to include just the contents, do **not** include the root folders `getMessages` and `postMessage` themselves. Remember to include the folders within `getMessages` and `postMessage` recursively. You can zip using whatever tool you like, I usually do
 ```bash
 cd lambdas/getMessages
 zip -r ../getMessages.zip *
@@ -99,6 +99,12 @@ You should have two zip files, one for each code folder. The names of the zip fi
     ├── getMessages.zip
     ├── postMessage
     └── postMessage.zip
+```
+The zips should be about **2.8 MB** in size. If they are smaller you probably forgot to zip recursively.
+```bash
+du -h lambdas/*.zip
+# 2.8M	lambdas/getMessages.zip
+# 2.8M	lambdas/postMessage.zip
 ```
 
 
@@ -172,7 +178,7 @@ Go back to **Functions** and create a new lambda the same way. This time call it
 
 
 
-# Adding a REST API
+# Create a REST API
 
 ## Go to API Gateway
 
@@ -199,7 +205,7 @@ Click **Create API**
 
 
 
-## Create GET method
+# Create GET method
 
 Select **Create Method** from the **Actions** dropdown.
 
@@ -375,7 +381,7 @@ Go to test and try it out! Remember to specify a request body with `username` an
 
 
 
-## Enabling CORS
+# Enabling CORS
 
 Under the **Actions** dropdown where we created the GET and POST methods, click **Enable CORS**.
 
@@ -383,7 +389,7 @@ Under the **Actions** dropdown where we created the GET and POST methods, click 
 
 
 
-## Deploying the API
+# Deploying the API
 
 The API is not public yet, you need to deploy it to be able to access it outside AWS.
 
