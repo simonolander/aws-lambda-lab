@@ -100,7 +100,7 @@ You should have two zip files, one for each code folder. The names of the zip fi
     ├── postMessage
     └── postMessage.zip
 ```
-The zips should be about **2.8 MB** in size. If they are smaller you probably forgot to zip recursively.
+The zips should be about **2.8 MB** in size. If they are smaller, verify that you zipped recursively.
 ```bash
 du -h lambdas/*.zip
 # 2.8M	lambdas/getMessages.zip
