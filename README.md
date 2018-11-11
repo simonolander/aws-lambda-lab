@@ -328,7 +328,7 @@ Test the method, try changing the limit to different values.
 
 
 
-## Creating the POST API
+# Creating the POST API
 
 Create a new method POST the same way you created the GET method. Point it to the lambda `postMessage` instead of the first lambda.
 
@@ -362,7 +362,7 @@ Under **Integration Response**, add the same response for 400 Bad Request as we 
 
 ## Test it out!
 
-Go to test and try it out! Remember to specify a request body.
+Go to test and try it out! Remember to specify a request body with `username` and `message`, here is an example:
 
 ```json
 {
