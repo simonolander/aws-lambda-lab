@@ -1,14 +1,15 @@
-# Academy + AWS = Sant
+# AWS Lambda Lab
+### A hands on introduction to how lambdas, gateways and databases work in AWS
 
-A hands on introduction to how lambdas, gateways and databases work in AWS. In this lab, we will 
+In this lab, we will 
+- Set up a database
 - Create two lambdas that create and retrieve data from a database
 - Hook the lambdas up to REST methods
 - Actually have everything working
-- Set up a database (if we have time)
 
 While doing this, we will learn
+- What RDS is and how to instantiate a database
 - What a lambda function is and how to create one
-- What a VPC is
 - How to have your lambda talk to your database
 - How to map REST requests to your lambdas
 
@@ -19,22 +20,185 @@ Everyone new to AWS spends a long time looking around in configuration files to 
 ## Home prep for you
 I need four things of you before we start the lab
 1. You all have to be able to log in to AWS Console. If you don't have an account, head to https://aws.amazon.com/ and hit **Sign up**. It takes a couple of minutes and requires personal details like credit card, but everything in this lab is free.
-2. I will also send you a file called **rds_config.py** containing the credentials for the database that we will be working with. Keep this safe somewhere.
-3. Clone this repo to your personal computer.
-4. We will be zipping files, make sure you have some program that can create a .zip
+2. Clone this repo to your personal computer.
+3. We will be zipping files, make sure you have some program that can create a .zip
 
 
 
 ## Home prep for me
-I have, apart from making this cool *README*, prepared the database and the lambda functions. The lambdas are written in Python and are located in the *lambdas*-folder in this repo. I prepped them to save you time, and to test the code beforehand. We will look at them a bit more later.
+I have, apart from making this cool *README*, prepared the lambda functions. The lambdas are written in Python and are located in the *lambdas*-folder in this repo. I prepped them to save you time, and to test the code beforehand. We will look at them a bit more later.
 
-The database is an MySQL RDS instance that is up and running at AWS. I prepared this not because it's hard, but because it takes some time to instantiate and we only need one anyway. We will look at the database setup in the end if we have time.
+
+
+# Creating the database
+
+## Sign in to AWS
+
+Sign in to AWS at https://console.aws.amazon.com/. The sign in option is in the top right corner. We are going to the *Service* called *RDS*.
+
+
+
+## Go to RDS
+
+RDS stands for Relational Database Service. 
+
+Click **Services** in the top menu bar, then click **RDS** in the menu. 
+
+![alt text](screenshots/go-to-rds.png "Go to RDS")
+
+
+
+## Create Database
+
+In the RDS page, click the big orange button called **Create function**.
+
+![alt text](screenshots/create-database.png "Click create database")
+
+
+
+## Select database enging
+
+Choose `MySQL` as database engine. For this lab, we're only using the free tier available stuff, so check the checkbox called `Only enable options elligible for frie RDS Free Usage Tier`. Click **Next**.
+
+![alt text](screenshots/create-database-select-type.png "Select database engine")
+
+
+
+## Specify DB details
+
+Leave the top of the page as is, and scroll down to the bottom of the page.
+
+Go to the section **Function code**
+
+Field | Value
+--- | ---
+**DB instance identifier** | `aws-lambda-lab`
+**Master username** | `root`
+**Password** | `your-super-safe-password` (Whatever you like, but remember it)
+
+![alt text](screenshots/create-database-specify-db-details-page1.png "Top of details page, make changes here")
+
+![alt text](screenshots/create-database-specify-db-details-page2.png "Bottom of details page, set database name, root username and password")
+
+
+
+## Configure advanced settings: Public accessibility
+
+We're going to have the database be publically accessible to make this lab a little easier to setup.
+
+Field | Value
+--- | ---
+**Public accessibility** | `Yes`
+
+![alt text](screenshots/create-database-configure-advanced-public-access.png "Set public accessibility")
+
+
+
+## Configure advanced settings: Database name
+
+Specify the database name
+
+Field | Value
+--- | ---
+**Database name** | `messages`
+
+![alt text](screenshots/create-database-configure-advanced-database-name.png "Enter database name")
+
+Scroll down and click **Create database**
+
+![alt text](screenshots/create-database-configure-advanced-done.png "Click create")
+
+In the next page, click **View DB instance details**
+
+![alt text](screenshots/create-database-view.png "Click view")
+
+
+
+## Getting database details
+
+The database is being created and backed up. Refresh the page and wait for the status to become `available`.
+
+![alt text](screenshots/create-database-wait-for-available.png "Wait for status available")
+
+Go to the **Details** section
+
+Make sure that the status is `available` and take note of the endpoint. 
+
+The endpoint will look something like `aws-lambda-lab.your-unique-identifier.us-east-2.rds.amazonaws.com`
+
+![alt text](screenshots/create-database-get-details.png "Database details section")
+
+
+
+## Creating a table and a stored procedure
+
+Open up your favourite MySQL client. All the examples I use is with the unix terminal one, `mysql`.
+
+
+### Connect to your database
+
+Remember to replace the host with your actual host. You will need your password, in the example it was `your-super-safe-password`.
+
+```bash
+mysql -h aws-lambda-lab.your-unique-identifier.us-east-2.rds.amazonaws.com -u root -p messages
+```
+
+
+### Create the table
+
+If your not in the database `messages`, go there
+```mysql
+use messages
+```
+
+Create the following table:
+```mysql
+create table messages (
+  id int primary key auto_increment,
+  username varchar(255) not null,
+  message text not null,
+  created_time datetime not null default current_timestamp()
+);
+```
+
+
+### Create the stored procedure
+
+The POST lambda is expecting a stored procedure `insert_message` to call to insert new messages.
+```mysql
+delimiter #
+create procedure insert_message(
+  in p_username varchar(255),
+  in p_message text
+)
+begin
+insert into messages (username, message) values (p_username, p_message);
+select id, username, message, created_time from messages where id=last_insert_id();
+end
+#
+delimiter ;
+```
+
+Try the procedure out:
+```mysql
+call insert_message('anon', 'Testing the stored procedure');
+
+-- output:
+-- +----+----------+------------------------------+---------------------+
+-- | id | username | message                      | created_time        |
+-- +----+----------+------------------------------+---------------------+
+-- |  1 | anon     | Testing the stored procedure | 2018-11-15 17:57:40 |
+-- +----+----------+------------------------------+---------------------+
+-- 1 row in set (0.34 sec)
+-- 
+-- Query OK, 0 rows affected (0.34 sec)
+```
 
 
 
 # Let's create the functions
 
-## Adding the config file
+## Clone the repo
 
 If you haven't already, clone this repo to your computer.
 ```bash
@@ -49,7 +213,21 @@ There is a folder called `lambdas` in the root of the repo. It contains our two 
     ├── getMessages
     └── postMessage
 ```
-Most of the contents in the folders are libraries for communicating with the database. The entry points for the lambdas (and the only code that isn't a lib) are in the files `getMessages/index.py` and `postMessage/index.py`. The lambdas are not yet complete; they are missing credentials for the database. Take the file `rds_config.py` that you've recieved by email and place it in each of the lambda folders. Your should have the following structure.
+Most of the contents in the folders are libraries for communicating with the database. The entry points for the lambdas (and the only code that isn't a lib) are in the files `getMessages/index.py` and `postMessage/index.py`. 
+
+
+
+## Adding database credentials
+
+The lambdas are not yet complete; they are missing credentials for the database. Create a file called `rds_config.py` and add the same information as below, but with your own `rds_host` and `rds_password`.
+```python
+rds_host = "aws-lambda-lab.your-unique-identifier.us-east-2.rds.amazonaws.com"
+rds_username = "root"
+rds_password = "your-super-safe-password"
+rds_db_name = "messages"
+```
+
+Place a copy of `rds_config.py` in `lambdas/getMessages` and `lambdas/postMessage` respectively. You should have the following structure.
 ```
 .
 └── lambdas
@@ -62,13 +240,7 @@ Most of the contents in the folders are libraries for communicating with the dat
         ├── index.py
         └── rds_config.py
 ```
-The structure of `rds_config.py` looks like this, but with the actual password.
-```python
-rds_host = "r2m-academy-lab.c891uj4a8hrg.us-east-2.rds.amazonaws.com"
-rds_username = "root"
-rds_password = "password"
-rds_db_name = "r2m_academy_lab"
-```
+
 If you have python3 on your computer, you can test that the lambda works by running
 ```bash
 cd lambdas/getMessages/
@@ -111,8 +283,7 @@ du -h lambdas/*.zip
 
 # Creating the functions in AWS
 
-## Sign in to AWS and go to Lambdas
-Sign in to AWS at https://console.aws.amazon.com/. The sign in option is in the top right corner. We are going to the *Service* called *Lambda*.
+## Go to the Lambda service
 
 Click **Services** in the top menu bar, then click **Lamdba** in the menu. In the lambda page, click the big orange button called **Create function**.
 
