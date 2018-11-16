@@ -18,7 +18,8 @@ Everyone new to AWS spends a long time looking around in configuration files to 
 
 
 ## Home prep for you
-I need four things of you before we start the lab
+
+I need three things of you before we start the lab
 1. You all have to be able to log in to AWS Console. If you don't have an account, head to https://aws.amazon.com/ and hit **Sign up**. It takes a couple of minutes and requires personal details like credit card, but everything in this lab is free.
 2. Clone this repo to your personal computer.
 3. We will be zipping files, make sure you have some program that can create a .zip
@@ -26,7 +27,8 @@ I need four things of you before we start the lab
 
 
 ## Home prep for me
-I have, apart from making this cool *README*, prepared the lambda functions. The lambdas are written in Python and are located in the *lambdas*-folder in this repo. I prepped them to save you time, and to test the code beforehand. We will look at them a bit more later.
+
+I have prepared the lambda functions. The lambdas are written in Python and are located in the *lambdas*-folder in this repo. The files I wrote are called `index.py`, the rest is libs. We won't talk about the lambda code very much in this lab, but you can totally check them out. They basically just validate the input and call the database.
 
 
 
