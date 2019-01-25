@@ -257,7 +257,7 @@ If you get get an error saying **ModuleNotFoundError: No module named 'rds_confi
 
 ## Zipping the folders
 
-The folders need to be zipped before we can upload them to AWS. You need to zip the *entire contents* of `getMessages` and `postMessage` to two separate zip files. Make sure not to include just the contents, do **not** include the root folders `getMessages` and `postMessage` themselves. Remember to include the folders within `getMessages` and `postMessage` recursively. You can zip using whatever tool you like, I usually do
+The folders need to be zipped before we can upload them to AWS. You need to zip the *entire contents* of `getMessages` and `postMessage` to two separate zip files. Make sure to include the contents and subfolders recursively, but **do not** include the root folders `getMessages` and `postMessage` themselves. You can zip using whatever tool you like, I usually do
 ```bash
 cd lambdas/getMessages
 zip -r ../getMessages.zip *
